@@ -1,6 +1,7 @@
 using AutoMapper;
 using CustomAuthAPI.Models;
 using CustomAuthAPI.Models.DTOs.Incoming;
+using CustomAuthAPI.Models.DTOs.Outgoing;
 using CustomAuthAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,22 +23,28 @@ public class StoreController : ControllerBase
 
 	// GET: api/Store
 	[HttpGet]
-	public async Task<ActionResult<IEnumerable<Store>>> GetStores()
+	public async Task<ActionResult<IEnumerable<StoreDto>>> GetStores()
 	{
 		if (_context.Stores == null) return NotFound();
-		return await _context.Stores.ToListAsync();
+		
+		var allStores = await _context.Stores.ToListAsync();
+		var _stores = _mapper.Map<StoreDto>(allStores);
+
+		return Ok(_stores);
 	}
 
 	// GET: api/Store/5
 	[HttpGet("{id}")]
-	public async Task<ActionResult<Store>> GetStore(int id)
+	public async Task<ActionResult<StoreDto>> GetStore(int id)
 	{
 		if (_context.Stores == null) return NotFound();
 		var store = await _context.Stores.FindAsync(id);
 
 		if (store == null) return NotFound();
 
-		return store;
+		var _store = _mapper.Map<StoreDto>(store);
+
+		return _store;
 	}
 
 	// PUT: api/Store/5

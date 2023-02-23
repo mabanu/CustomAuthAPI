@@ -1,6 +1,7 @@
 using AutoMapper;
 using CustomAuthAPI.Models;
 using CustomAuthAPI.Models.DTOs.Incoming;
+using CustomAuthAPI.Models.DTOs.Outgoing;
 using CustomAuthAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,22 +23,27 @@ public class UserController : ControllerBase
 
 	// GET: api/User
 	[HttpGet]
-	public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+	public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
 	{
 		if (_context.Users == null) return NotFound();
-		return await _context.Users.ToListAsync();
+		var allUsers = await _context.Users.ToListAsync();
+		var _users = _mapper.Map<UserDto>(allUsers);
+
+		return Ok(_users);
 	}
 
 	// GET: api/User/5
 	[HttpGet("{id}")]
-	public async Task<ActionResult<User>> GetUser(int id)
+	public async Task<ActionResult<UserDto>> GetUser(int id)
 	{
 		if (_context.Users == null) return NotFound();
 		var user = await _context.Users.FindAsync(id);
 
 		if (user == null) return NotFound();
 
-		return user;
+		var _user = _mapper.Map<UserDto>(user);
+
+		return _user;
 	}
 
 	// PUT: api/User/5

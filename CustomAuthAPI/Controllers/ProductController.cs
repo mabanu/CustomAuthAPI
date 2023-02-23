@@ -1,6 +1,7 @@
 using AutoMapper;
 using CustomAuthAPI.Models;
 using CustomAuthAPI.Models.DTOs.Incoming;
+using CustomAuthAPI.Models.DTOs.Outgoing;
 using CustomAuthAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,32 +23,37 @@ public class ProductController : ControllerBase
 
 	// GET: api/Product
 	[HttpGet]
-	public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+	public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
 	{
 		if (_context.Products == null) return NotFound();
-		return await _context.Products.ToListAsync();
+		
+		var allProduct = await _context.Products.ToListAsync();
+		var _products = _mapper.Map<IEnumerable<ProductDto>>(allProduct);
+		return Ok(_products);
 	}
 
 	// GET: api/Product/5
 	[HttpGet("{id}")]
-	public async Task<ActionResult<Product>> GetProduct(int id)
+	public async Task<ActionResult<ProductDto>> GetProduct(int id)
 	{
 		if (_context.Products == null) return NotFound();
 		var product = await _context.Products.FindAsync(id);
 
 		if (product == null) return NotFound();
 
-		return product;
+		var _product = _mapper.Map<ProductDto>(product);
+		return Ok(_product);
 	}
 
 	// PUT: api/Product/5
 	// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 	[HttpPut("{id}")]
-	public async Task<IActionResult> PutProduct(int id, Product product)
+	public async Task<IActionResult> PutProduct(int id, ProductUpdateDto product)
 	{
 		if (id != product.Id) return BadRequest();
 
-		_context.Entry(product).State = EntityState.Modified;
+		var _product = _mapper.Map<Product>(product);
+		_context.Entry(_product).State = EntityState.Modified;
 
 		try
 		{
