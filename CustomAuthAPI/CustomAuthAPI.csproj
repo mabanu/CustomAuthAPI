@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+      <UserSecretsId>ab1b711a-3ea9-49b6-8f01-ec64b8f3ed73</UserSecretsId>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Devart.Data.MySql.EFCore" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.14" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.14" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.14" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.14">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.12" />
+        <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.10" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+
+</Project>
