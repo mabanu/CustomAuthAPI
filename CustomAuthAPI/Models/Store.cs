@@ -5,11 +5,9 @@ namespace CustomAuthAPI.Models;
 
 public class Store
 {
-	[JsonPropertyName("name")]
-	public string Name { get; set; }
-	
+	[JsonPropertyName("name")] public string Name { get; set; }
+
 	[Key]
 	[JsonPropertyName("uniqueStoreId")]
 	public int UniqueStoreId { get; set; }
-	
 }

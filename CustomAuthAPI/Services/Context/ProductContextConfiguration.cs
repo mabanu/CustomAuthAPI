@@ -13,7 +13,7 @@ public class ProductContextConfiguration : IEntityTypeConfiguration<Product>
 	}
 
 	public List<Product> SeedProductData()
-	{ 
+	{
 		var products = new List<Product>();
 		using (var reader = new StreamReader(@"Services/Data/ProductData.json"))
 		{

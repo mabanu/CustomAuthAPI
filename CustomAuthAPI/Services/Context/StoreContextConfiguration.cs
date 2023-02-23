@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using CustomAuthAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CustomAuthAPI.Services.Context;

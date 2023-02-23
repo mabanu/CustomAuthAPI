@@ -8,9 +8,8 @@ public class AppDbContext : DbContext
 {
 	public AppDbContext(DbContextOptions options) : base(options)
 	{
-		
 	}
-	
+
 	public DbSet<Product> Products { get; set; }
 	public DbSet<Store> Stores { get; set; }
 	public DbSet<User> Users { get; set; }
@@ -20,6 +19,5 @@ public class AppDbContext : DbContext
 		builder.ApplyConfiguration(new ProductContextConfiguration());
 		builder.ApplyConfiguration(new StoreContextConfiguration());
 		builder.ApplyConfiguration(new UserContextConfiguration());
-		
 	}
 }

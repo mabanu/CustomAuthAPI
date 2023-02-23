@@ -1,7 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using CustomAuthAPI.Repository.Interfaces;
 using CustomAuthAPI.Repository.Repo;
 using CustomAuthAPI.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();

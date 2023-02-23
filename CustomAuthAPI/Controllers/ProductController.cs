@@ -1,119 +1,98 @@
+using AutoMapper;
+using CustomAuthAPI.Models;
+using CustomAuthAPI.Models.DTOs.Incoming;
+using CustomAuthAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CustomAuthAPI.Models;
-using CustomAuthAPI.Services;
 
-namespace CustomAuthAPI.Controllers
+namespace CustomAuthAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class ProductController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProductController : ControllerBase
-    {
-        private readonly AppDbContext _context;
+	private readonly AppDbContext _context;
+	private readonly IMapper _mapper;
 
-        public ProductController(AppDbContext context)
-        {
-            _context = context;
-        }
+	public ProductController(AppDbContext context, IMapper mapper)
+	{
+		_context = context;
+		_mapper = mapper;
+	}
 
-        // GET: api/Product
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
-        {
-          if (_context.Products == null)
-          {
-              return NotFound();
-          }
-            return await _context.Products.ToListAsync();
-        }
+	// GET: api/Product
+	[HttpGet]
+	public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+	{
+		if (_context.Products == null) return NotFound();
+		return await _context.Products.ToListAsync();
+	}
 
-        // GET: api/Product/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
-        {
-          if (_context.Products == null)
-          {
-              return NotFound();
-          }
-            var product = await _context.Products.FindAsync(id);
+	// GET: api/Product/5
+	[HttpGet("{id}")]
+	public async Task<ActionResult<Product>> GetProduct(int id)
+	{
+		if (_context.Products == null) return NotFound();
+		var product = await _context.Products.FindAsync(id);
 
-            if (product == null)
-            {
-                return NotFound();
-            }
+		if (product == null) return NotFound();
 
-            return product;
-        }
+		return product;
+	}
 
-        // PUT: api/Product/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
-        {
-            if (id != product.Id)
-            {
-                return BadRequest();
-            }
+	// PUT: api/Product/5
+	// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+	[HttpPut("{id}")]
+	public async Task<IActionResult> PutProduct(int id, Product product)
+	{
+		if (id != product.Id) return BadRequest();
 
-            _context.Entry(product).State = EntityState.Modified;
+		_context.Entry(product).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+		try
+		{
+			await _context.SaveChangesAsync();
+		}
+		catch (DbUpdateConcurrencyException)
+		{
+			if (!ProductExists(id))
+				return NotFound();
+			throw;
+		}
 
-            return NoContent();
-        }
+		return NoContent();
+	}
 
-        // POST: api/Product
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
-        {
-          if (_context.Products == null)
-          {
-              return Problem("Entity set 'AppDbContext.Products'  is null.");
-          }
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+	// POST: api/Product
+	// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+	[HttpPost]
+	public async Task<ActionResult<Product>> PostProduct(ProductCreationDto product)
+	{
+		if (_context.Products == null) return Problem("Entity set 'AppDbContext.Products'  is null.");
 
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
-        }
+		var _product = _mapper.Map<Product>(product);
+		_context.Products.Add(_product);
+		await _context.SaveChangesAsync();
 
-        // DELETE: api/Product/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
-        {
-            if (_context.Products == null)
-            {
-                return NotFound();
-            }
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+		return CreatedAtAction("GetProduct", new { id = _product.Id }, _product);
+	}
 
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+	// DELETE: api/Product/5
+	[HttpDelete("{id}")]
+	public async Task<IActionResult> DeleteProduct(int id)
+	{
+		if (_context.Products == null) return NotFound();
+		var product = await _context.Products.FindAsync(id);
+		if (product == null) return NotFound();
 
-            return NoContent();
-        }
+		_context.Products.Remove(product);
+		await _context.SaveChangesAsync();
 
-        private bool ProductExists(int id)
-        {
-            return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-    }
+		return NoContent();
+	}
+
+	private bool ProductExists(int id)
+	{
+		return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
+	}
 }
