@@ -1,3 +1,4 @@
+using CustomAuthAPI.Authentication;
 using CustomAuthAPI.Repository.Interfaces;
 using CustomAuthAPI.Repository.Repo;
 using CustomAuthAPI.Services;
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddDbContext<AppDbContext>(options =>
 	options.UseMySQL(builder.Configuration.GetConnectionString("sqlConnection")));
 
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -35,6 +37,8 @@ app.UseCors(cors => cors
 	.AllowAnyOrigin());
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ApiKeyAuthMiddleware>();
 
 app.UseAuthorization();
 
