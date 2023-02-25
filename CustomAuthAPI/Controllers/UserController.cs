@@ -27,7 +27,7 @@ public class UserController : ControllerBase
 	{
 		if (_context.Users == null) return NotFound();
 		var allUsers = await _context.Users.ToListAsync();
-		var _users = _mapper.Map<UserDto>(allUsers);
+		var _users = _mapper.Map<IEnumerable<UserDto>>(allUsers);
 
 		return Ok(_users);
 	}

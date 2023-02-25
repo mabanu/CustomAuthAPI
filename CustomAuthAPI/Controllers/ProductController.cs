@@ -1,4 +1,5 @@
 using AutoMapper;
+using CustomAuthAPI.Authentication;
 using CustomAuthAPI.Models;
 using CustomAuthAPI.Models.DTOs.Incoming;
 using CustomAuthAPI.Models.DTOs.Outgoing;
@@ -23,6 +24,9 @@ public class ProductController : ControllerBase
 
 	// GET: api/Product
 	[HttpGet]
+	[ServiceFilter(typeof(ApiKeyAuthFilter))]
+	// Make mocking more difficult
+	//[ApiKeyAuthFilter]
 	public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
 	{
 		if (_context.Products == null) return NotFound();

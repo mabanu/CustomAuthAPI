@@ -3,6 +3,7 @@ using CustomAuthAPI.Models;
 using CustomAuthAPI.Models.DTOs.Incoming;
 using CustomAuthAPI.Models.DTOs.Outgoing;
 using CustomAuthAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,12 +24,13 @@ public class StoreController : ControllerBase
 
 	// GET: api/Store
 	[HttpGet]
+	[Authorize(Policy = "RequireAdministratorRole")]
 	public async Task<ActionResult<IEnumerable<StoreDto>>> GetStores()
 	{
 		if (_context.Stores == null) return NotFound();
 		
 		var allStores = await _context.Stores.ToListAsync();
-		var _stores = _mapper.Map<StoreDto>(allStores);
+		var _stores = _mapper.Map<IEnumerable<StoreDto>>(allStores);
 
 		return Ok(_stores);
 	}
