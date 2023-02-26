@@ -2,4 +2,5 @@
 
 public interface IUserRepository
 {
+	object GetMyName();
 }

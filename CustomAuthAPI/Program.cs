@@ -1,10 +1,14 @@
+using System.Text;
 using CustomAuthAPI.Authentication;
 using CustomAuthAPI.Repository.Interfaces;
 using CustomAuthAPI.Repository.Repo;
 using CustomAuthAPI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,17 +24,18 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 // One way to do it but every endpoint need authorization
 builder.Services.AddControllers(/*config => config.Filters.Add<ApiKeyAuthFilter>()*/);
 
-builder.Services.AddAuthorization(options =>
-{
-	options.AddPolicy("RequireAdministratorRole",
-		policy => policy.RequireRole("Administrator"));
-});
+// builder.Services.AddAuthorization(options =>
+// {
+// 	options.AddPolicy("RequireAdministratorRole",
+// 		policy => policy.RequireRole("Administrator"));
+// });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHttpContextAccessor();
 
 // Add Authorization to swagger
-builder.Services.AddSwaggerGen(config =>
+/*builder.Services.AddSwaggerGen(config =>
 {
 	config.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
 	{
@@ -54,7 +59,33 @@ builder.Services.AddSwaggerGen(config =>
 		{ scheme, new List<string>() }
 	};
 	config.AddSecurityRequirement(requirement);
+});*/
+
+builder.Services.AddSwaggerGen(options =>
+{
+	options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+	{
+		Description = "Standard Authorization Header using bearer scheme (\"bearer {token}\")",
+		In = ParameterLocation.Header,
+		Name = "Authorization",
+		Type = SecuritySchemeType.ApiKey
+	});
+	
+	options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	.AddJwtBearer(options =>
+	{
+		options.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuerSigningKey = true,
+			IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+				.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+			ValidateIssuer = false,
+			ValidateAudience = false
+		};
+	});
 
 builder.Services.AddCors();
 
@@ -65,6 +96,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 	options.UseMySQL(builder.Configuration.GetConnectionString("sqlConnection")));
@@ -85,6 +117,8 @@ app.UseHttpsRedirection();
 
 // Every endpoint need Authorization
 //app.UseMiddleware<ApiKeyAuthMiddleware>();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

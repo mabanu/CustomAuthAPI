@@ -12,6 +12,16 @@ public class User
 
 	[JsonPropertyName("password")] public string Password { get; set; }
 
+	public byte[]? PasswordHash { get; set; }
+
+	public byte[]? PasswordSalt { get; set; }
+
+	public string RefreshToken { get; set; } = string.Empty;
+
+	public DateTime TokenCreated { get; set; }
+
+	public DateTime TokenExpires { get; set; }
+
 	[JsonPropertyName("role")] public string Role { get; set; }
 
 	public Store Store { get; set; }
