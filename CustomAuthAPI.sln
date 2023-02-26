@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomAuthAPI", "CustomAuthAPI\CustomAuthAPI.csproj", "{A57754C0-7825-4818-8AF0-E6630EF7419D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{2F668F17-8D50-44AA-88B1-963CD7FA8FCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{A57754C0-7825-4818-8AF0-E6630EF7419D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A57754C0-7825-4818-8AF0-E6630EF7419D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A57754C0-7825-4818-8AF0-E6630EF7419D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F668F17-8D50-44AA-88B1-963CD7FA8FCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F668F17-8D50-44AA-88B1-963CD7FA8FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F668F17-8D50-44AA-88B1-963CD7FA8FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F668F17-8D50-44AA-88B1-963CD7FA8FCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
