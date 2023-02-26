@@ -3,6 +3,7 @@ using CustomAuthAPI.Models;
 using CustomAuthAPI.Models.DTOs.Incoming;
 using CustomAuthAPI.Models.DTOs.Outgoing;
 using CustomAuthAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,7 @@ namespace CustomAuthAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = "super-admin")]
 public class UserController : ControllerBase
 {
 	private readonly AppDbContext _context;
@@ -23,6 +25,7 @@ public class UserController : ControllerBase
 
 	// GET: api/User
 	[HttpGet]
+	[Authorize(Roles = "super-admin")]
 	public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
 	{
 		if (_context.Users == null) return NotFound();
@@ -34,6 +37,7 @@ public class UserController : ControllerBase
 
 	// GET: api/User/5
 	[HttpGet("{id}")]
+	[Authorize(Roles = "user")]
 	public async Task<ActionResult<UserDto>> GetUser(int id)
 	{
 		if (_context.Users == null) return NotFound();
@@ -49,6 +53,7 @@ public class UserController : ControllerBase
 	// PUT: api/User/5
 	// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 	[HttpPut("{id}")]
+	[Authorize(Roles = "user")]
 	public async Task<IActionResult> PutUser(int id, User user)
 	{
 		if (id != user.Id) return BadRequest();
@@ -72,6 +77,7 @@ public class UserController : ControllerBase
 	// POST: api/User
 	// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 	[HttpPost]
+	[Authorize(Roles = "user")]
 	public async Task<ActionResult<User>> PostUser(UserCreationDto user)
 	{
 		if (_context.Users == null) return Problem("Entity set 'AppDbContext.Users'  is null.");
@@ -85,6 +91,7 @@ public class UserController : ControllerBase
 
 	// DELETE: api/User/5
 	[HttpDelete("{id}")]
+	[Authorize(Roles = "user")]
 	public async Task<IActionResult> DeleteUser(int id)
 	{
 		if (_context.Users == null) return NotFound();

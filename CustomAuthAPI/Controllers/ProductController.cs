@@ -4,6 +4,7 @@ using CustomAuthAPI.Models;
 using CustomAuthAPI.Models.DTOs.Incoming;
 using CustomAuthAPI.Models.DTOs.Outgoing;
 using CustomAuthAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,6 +53,7 @@ public class ProductController : ControllerBase
 	// PUT: api/Product/5
 	// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 	[HttpPut("{id}")]
+	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> PutProduct(int id, ProductUpdateDto product)
 	{
 		if (id != product.Id) return BadRequest();
@@ -76,6 +78,7 @@ public class ProductController : ControllerBase
 	// POST: api/Product
 	// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 	[HttpPost]
+	[Authorize(Roles = "Admin")]
 	public async Task<ActionResult<Product>> PostProduct(ProductCreationDto product)
 	{
 		if (_context.Products == null) return Problem("Entity set 'AppDbContext.Products'  is null.");
@@ -89,6 +92,7 @@ public class ProductController : ControllerBase
 
 	// DELETE: api/Product/5
 	[HttpDelete("{id}")]
+	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> DeleteProduct(int id)
 	{
 		if (_context.Products == null) return NotFound();

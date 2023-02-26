@@ -114,10 +114,11 @@ public class AuthController : ControllerBase
 		
 		var user = await _context.Users.FindAsync(dataToken.UserId);
 
-		var token = _tokenRepository.CreateToken(user, "admin", _configuration);
+		var token = _tokenRepository.CreateToken(user, user.Role, _configuration);
 		var newRefreshToken = _tokenRepository.GenerateRefreshToken();
 		_tokenRepository.SetRefreshToken(newRefreshToken, user, Response);
 		_context.Entry(user).State = EntityState.Modified;
+		newRefreshToken.UserId = user.Id;
 		_context.Tokens.Add(newRefreshToken);
 		await _context.SaveChangesAsync();
 

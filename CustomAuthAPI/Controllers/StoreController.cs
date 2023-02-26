@@ -24,7 +24,6 @@ public class StoreController : ControllerBase
 
 	// GET: api/Store
 	[HttpGet]
-	[Authorize(Policy = "RequireAdministratorRole")]
 	public async Task<ActionResult<IEnumerable<StoreDto>>> GetStores()
 	{
 		if (_context.Stores == null) return NotFound();
@@ -37,6 +36,7 @@ public class StoreController : ControllerBase
 
 	// GET: api/Store/5
 	[HttpGet("{id}")]
+	[Authorize(Roles = "user")]
 	public async Task<ActionResult<StoreDto>> GetStore(int id)
 	{
 		if (_context.Stores == null) return NotFound();
@@ -52,6 +52,7 @@ public class StoreController : ControllerBase
 	// PUT: api/Store/5
 	// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 	[HttpPut("{id}")]
+	[Authorize(Roles = "admin")]
 	public async Task<IActionResult> PutStore(int id, Store store)
 	{
 		if (id != store.UniqueStoreId) return BadRequest();
@@ -75,6 +76,7 @@ public class StoreController : ControllerBase
 	// POST: api/Store
 	// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 	[HttpPost]
+	[Authorize(Roles = "admin")]
 	public async Task<ActionResult<Store>> PostStore(StoreCreationDto store)
 	{
 		if (_context.Stores == null) return Problem("Entity set 'AppDbContext.Stores'  is null.");
@@ -88,6 +90,7 @@ public class StoreController : ControllerBase
 
 	// DELETE: api/Store/5
 	[HttpDelete("{id}")]
+	[Authorize(Roles = "admin")]
 	public async Task<IActionResult> DeleteStore(int id)
 	{
 		if (_context.Stores == null) return NotFound();
