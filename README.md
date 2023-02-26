@@ -19,7 +19,7 @@
 # CustomAuthAPI     ![](https://img.shields.io/github/last-commit/mabanu/CustomAuthAPI?style=plastic)
 
 <div id="header" align='center'>
-   <image src="https://media.giphy.com/media/13HgwGsXF0aiGY/giphy-downsized.gif" alt="Fail">
+   <image src="https://media.giphy.com/media/11kEuHSQAXXiGQ/giphy.gif" alt="Fail">
 </div>
    
    ## Description
