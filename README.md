@@ -24,6 +24,8 @@
    
    ## Description
    
-  ToDo
+  Rest Api working with MySQL database with JWT tokens with refresh and send cookies with the token and expires after 7 days, plus roles Authorization with Bearer in some endpoints. This is part of a bigger project of e-commerce website like amazon or ebay kind of style.
     
    ## Look
+   
+   ToDo
