@@ -25,7 +25,6 @@ public class ProductController : ControllerBase
 
 	// GET: api/Product
 	[HttpGet]
-	[ServiceFilter(typeof(ApiKeyAuthFilter))]
 	// Make mocking more difficult
 	//[ApiKeyAuthFilter]
 	public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
