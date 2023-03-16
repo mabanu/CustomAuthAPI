@@ -24,8 +24,29 @@
    
    ## Description
    
-  Rest Api working with MySQL database with JWT tokens with refresh and send cookies with the token and expires after 7 days, plus roles Authorization with Bearer in some endpoints. This is part of a bigger project of e-commerce website like amazon or ebay kind of style.
+  This is a Rest API the will manage the information in a project of a e-commerce website like     amazon or ebay kind of style, with different products, Stores, and Users.
+  I use data from .json files to seed data in the database.
+  It have 3 different roles: user, admin, super-admin and this roles gives access to diferent     endpoints.
+
     
-   ## Look
+  ## Implimentation
+  
+      * Rest API
+      * MySQL database
+      * Entity framework
+      * AutoMapper for the DTO's
+      * JWT tokens refresh
+      * Cookie with the token that expires after 7 days
+      * Role Authorization with Bearer
+      * Authentication
+      * SeriLog logging
+  
+  ## Look
+  
+  ![first](https://user-images.githubusercontent.com/64554427/225583673-102d66c4-0eb8-4c64-90c2-80728b8de57b.png)
+![second](https://user-images.githubusercontent.com/64554427/225583699-9e9c5de3-506a-4e56-8c11-8c3babf89452.png)
+![third](https://user-images.githubusercontent.com/64554427/225583742-bf0bddc4-9a7b-4f94-90f6-abd74c9809ab.png)
+![schema](https://user-images.githubusercontent.com/64554427/225583759-6006603d-31c7-47db-8ada-b78f57f72e6d.png)
+
    
    ToDo
