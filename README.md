@@ -24,7 +24,7 @@
    
    ## Description
    
-  This is a Rest API the will manage the information in a project of a e-commerce website like     amazon or ebay kind of style, with different products, Stores, and Users.
+  This is a one week Rest API project that will manage the information in a project of a e-commerce website like     amazon or ebay kind of style, with different products, Stores, and Users.
   I use data from .json files to seed data in the database.
   It have 3 different roles: user, admin, super-admin and this roles gives access to diferent     endpoints.
 
